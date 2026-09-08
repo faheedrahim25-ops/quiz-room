@@ -23,6 +23,8 @@ type ApiResponse<T> = { success: boolean; data: T; message?: string; error?: { c
 
 async function request<T>(path: string, options: RequestInit = {}, accessToken?: string): Promise<T> {
   const response = await fetch(`${API_URL}${path}`, { ...options, credentials: 'include', headers: { 'Content-Type': 'application/json', ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}), ...options.headers } })
+  const contentType = response.headers.get('content-type') ?? ''
+  if (!contentType.includes('application/json')) throw new Error(`API unavailable (${response.status}). Check the deployment API route.`)
   const body = await response.json() as ApiResponse<T>
   if (!response.ok || !body.success) throw new Error(body.error?.message ?? 'Request failed')
   return body.data
