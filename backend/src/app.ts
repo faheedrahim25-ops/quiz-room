@@ -1,6 +1,6 @@
 import express, { type NextFunction, type Request, type Response } from 'express'
 import cors from 'cors'
-import helmet from 'helmet'
+import * as helmetModule from 'helmet'
 import { randomUUID } from 'node:crypto'
 import { ZodError } from 'zod'
 import { env } from './config/env.js'
@@ -9,12 +9,15 @@ import questionRoutes from './routes/questions.js'
 import quizRoutes from './routes/quizzes.js'
 import attemptRoutes from './routes/attempts.js'
 import resultRoutes from './routes/results.js'
-import rateLimit from 'express-rate-limit'
+import * as rateLimitModule from 'express-rate-limit'
 import { pool } from './db/pool.js'
 
 const app = express()
+const helmet = helmetModule.default
+const rateLimit = rateLimitModule.default
 app.use(helmet())
-app.use(cors({ origin: env.CORS_ORIGIN, credentials: true }))
+const allowedOrigins = env.CORS_ORIGIN.split(',').map((origin) => origin.trim()).filter(Boolean)
+app.use(cors({ origin: (origin, callback) => { if (!origin || allowedOrigins.includes(origin)) return callback(null, true); return callback(new Error('CORS origin is not allowed')) }, credentials: true }))
 app.use(express.json({ limit: '1mb' }))
 app.use((request, response, next) => { response.setHeader('X-Request-Id', randomUUID()); next() })
 const apiLimiter = rateLimit({ windowMs: env.RATE_LIMIT_WINDOW, limit: env.RATE_LIMIT_MAX, standardHeaders: 'draft-8', legacyHeaders: false })
