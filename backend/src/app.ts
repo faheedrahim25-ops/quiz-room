@@ -38,5 +38,5 @@ app.use((error: Error, _request: Request, response: Response, _next: NextFunctio
 	return response.status(500).json({ success: false, error: { code: 'INTERNAL_ERROR', message: 'An unexpected error occurred' } })
 })
 
-if (process.env.NODE_ENV !== 'test') app.listen(env.PORT, () => console.log(`Mentor360 API listening on ${env.PORT}`))
+if (process.env.NODE_ENV !== 'test' && !process.env.VERCEL) app.listen(env.PORT, () => console.log(`Mentor360 API listening on ${env.PORT}`))
 export default app
