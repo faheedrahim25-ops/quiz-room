@@ -17,6 +17,8 @@ Node.js 22+, npm, PostgreSQL 16+.
 3. Start the API with `npm run dev --prefix backend`.
 4. Start the frontend with `npm run dev --prefix frontend`.
 
+For a deployed frontend, set `VITE_API_URL` in the frontend deployment environment to the public API URL, including `/api/v1` (for example, `https://api.example.com/api/v1`). Do not leave it unset in production because the fallback is `localhost`. Set the backend `CORS_ORIGIN` to the deployed frontend origin; multiple origins may be comma-separated.
+
 ### Development login
 
 - Admin: `admin@college.edu` / `Admin@123`

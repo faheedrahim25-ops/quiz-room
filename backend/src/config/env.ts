@@ -13,7 +13,7 @@ const schema = z.object({
   JWT_REFRESH_SECRET: z.string().min(32).default('mentor360-dev-refresh-secret-change-before-production-2026'),
   ACCESS_TOKEN_EXPIRES_IN: z.string().min(1).default('15m'),
   REFRESH_TOKEN_EXPIRES_IN: z.string().min(1).default('30d'),
-  CORS_ORIGIN: z.string().url().default('http://localhost:5173'),
+  CORS_ORIGIN: z.string().default('http://localhost:5173'),
   RATE_LIMIT_WINDOW: z.coerce.number().int().positive().default(900000),
   RATE_LIMIT_MAX: z.coerce.number().int().positive().default(100),
 })

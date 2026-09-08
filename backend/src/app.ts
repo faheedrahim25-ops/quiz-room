@@ -1,4 +1,4 @@
-import express, { type NextFunction, type Request, type Response } from 'express'
+import express, { type NextFunction, type Request, type RequestHandler, type Response } from 'express'
 import cors from 'cors'
 import * as helmetModule from 'helmet'
 import { randomUUID } from 'node:crypto'
@@ -13,8 +13,8 @@ import * as rateLimitModule from 'express-rate-limit'
 import { pool } from './db/pool.js'
 
 const app = express()
-const helmet = helmetModule.default
-const rateLimit = rateLimitModule.default
+const helmet = helmetModule.default as unknown as (...options: unknown[]) => RequestHandler
+const rateLimit = rateLimitModule.default as unknown as (...options: unknown[]) => RequestHandler
 app.use(helmet())
 const allowedOrigins = env.CORS_ORIGIN.split(',').map((origin) => origin.trim()).filter(Boolean)
 app.use(cors({ origin: (origin, callback) => { if (!origin || allowedOrigins.includes(origin)) return callback(null, true); return callback(new Error('CORS origin is not allowed')) }, credentials: true }))
