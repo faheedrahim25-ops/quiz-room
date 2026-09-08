@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "npm run dev --prefix backend",
     "build": "npm run build --prefix frontend && npm run build --prefix backend",
+    "start": "node backend/dist/app.js",
     "test": "npm run test --prefix backend"
   },
   "dependencies": {

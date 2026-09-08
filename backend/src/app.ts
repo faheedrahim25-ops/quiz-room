@@ -2,6 +2,9 @@ import express, { type NextFunction, type Request, type RequestHandler, type Res
 import cors from 'cors'
 import { randomUUID } from 'node:crypto'
 import { createRequire } from 'node:module'
+import { existsSync } from 'node:fs'
+import { resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { ZodError } from 'zod'
 import { env } from './config/env.js'
 import authRoutes from './routes/auth.js'
@@ -31,6 +34,14 @@ app.use('/api/v1/questions', questionRoutes)
 app.use('/api/v1/quizzes', quizRoutes)
 app.use('/api/v1', attemptRoutes)
 app.use('/api/v1', resultRoutes)
+const frontendDist = resolve(fileURLToPath(new URL('../../frontend/dist', import.meta.url)))
+if (existsSync(frontendDist)) {
+	app.use(express.static(frontendDist, { index: false }))
+	app.use((request, response, next) => {
+		if (request.method === 'GET' && !request.path.startsWith('/api/')) return response.sendFile(resolve(frontendDist, 'index.html'))
+		next()
+	})
+}
 app.use((_request, response) => response.status(404).json({ success: false, error: { code: 'NOT_FOUND', message: 'Resource not found' } }))
 app.use((error: Error, _request: Request, response: Response, _next: NextFunction) => {
 	if (error instanceof ZodError) return response.status(400).json({ success: false, error: { code: 'VALIDATION_ERROR', message: error.issues.map((issue) => `${issue.path.join('.') || 'request'}: ${issue.message}`).join('; ') } })
