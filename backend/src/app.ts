@@ -1,7 +1,7 @@
 import express, { type NextFunction, type Request, type RequestHandler, type Response } from 'express'
 import cors from 'cors'
-import * as helmetModule from 'helmet'
 import { randomUUID } from 'node:crypto'
+import { createRequire } from 'node:module'
 import { ZodError } from 'zod'
 import { env } from './config/env.js'
 import authRoutes from './routes/auth.js'
@@ -9,12 +9,12 @@ import questionRoutes from './routes/questions.js'
 import quizRoutes from './routes/quizzes.js'
 import attemptRoutes from './routes/attempts.js'
 import resultRoutes from './routes/results.js'
-import * as rateLimitModule from 'express-rate-limit'
 import { pool } from './db/pool.js'
 
 const app = express()
-const helmet = helmetModule.default as unknown as (...options: unknown[]) => RequestHandler
-const rateLimit = rateLimitModule.default as unknown as (...options: unknown[]) => RequestHandler
+const require = createRequire(import.meta.url)
+const helmet = require('helmet') as (...options: unknown[]) => RequestHandler
+const rateLimit = require('express-rate-limit') as (...options: unknown[]) => RequestHandler
 app.use(helmet())
 const allowedOrigins = env.CORS_ORIGIN.split(',').map((origin) => origin.trim()).filter(Boolean)
 app.use(cors({ origin: (origin, callback) => { if (!origin || allowedOrigins.includes(origin)) return callback(null, true); return callback(new Error('CORS origin is not allowed')) }, credentials: true }))
