@@ -1,0 +1,12 @@
+{
+  "name": "mentor360",
+  "private": true,
+  "scripts": {
+    "dev": "npm run dev --prefix backend",
+    "build": "npm run build --prefix frontend && npm run build --prefix backend",
+    "test": "npm run test --prefix backend"
+  },
+  "dependencies": {
+    "@supabase/server": "^1.5.3"
+  }
+}

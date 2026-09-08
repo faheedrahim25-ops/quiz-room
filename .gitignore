@@ -1,0 +1,30 @@
+# Environment and local secrets
+.env
+.env.*
+!.env.example
+.mcp.json
+.agents/
+.claude/
+supabase/.temp/
+
+# Dependencies and build output
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+
+# Logs and local runtime files
+logs/
+*.log
+npm-debug.log*
+
+# Editor and OS files
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
