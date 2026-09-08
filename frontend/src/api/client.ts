@@ -1,4 +1,4 @@
-const API_URL = (import.meta.env.VITE_API_URL ?? 'http://localhost:4000/api/v1').replace(/\/$/, '')
+const API_URL = (import.meta.env.VITE_API_URL ?? (import.meta.env.PROD ? '/api/v1' : 'http://localhost:4000/api/v1')).replace(/\/$/, '')
 
 export type AuthUser = { id: string; email: string; firstName: string; lastName: string; roles: string[] }
 export type MentorDashboard = { mentees: number; averagePerformance: number; pendingEvaluations: number; upcomingMeetings: number }

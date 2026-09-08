@@ -19,6 +19,8 @@ Node.js 22+, npm, PostgreSQL 16+.
 
 For a deployed frontend, set `VITE_API_URL` in the frontend deployment environment to the public API URL, including `/api/v1` (for example, `https://api.example.com/api/v1`). Do not leave it unset in production because the fallback is `localhost`. Set the backend `CORS_ORIGIN` to the deployed frontend origin; multiple origins may be comma-separated.
 
+For a single Vercel deployment from the repository root, the included `vercel.json` serves `frontend/dist` and routes `/api/*` to the backend function. In that setup, `VITE_API_URL` is optional and the frontend uses the same-origin `/api/v1` path.
+
 ### Development login
 
 - Admin: `admin@college.edu` / `Admin@123`

@@ -1,6 +1,7 @@
 {
   "name": "mentor360",
   "private": true,
+  "workspaces": ["frontend", "backend"],
   "scripts": {
     "dev": "npm run dev --prefix backend",
     "build": "npm run build --prefix frontend && npm run build --prefix backend",
