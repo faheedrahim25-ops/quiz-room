@@ -1,6 +1,5 @@
 import { useState, type ChangeEvent } from 'react'
 import { Check, Clipboard, Eye, FileSpreadsheet, Plus, Sparkles, Trophy, Trash2 } from 'lucide-react'
-import * as XLSX from 'xlsx'
 import type { LeaderboardRow, QuizSummary } from './api/client'
 
 type DraftQuestion = { text: string; type: 'MCQ' | 'FILL_BLANK' | 'TRUE_FALSE' | 'SHORT_ANSWER'; options: string[]; correct: number; expectedAnswer: string; marks: number }
@@ -37,6 +36,7 @@ async function importQuestions(event: ChangeEvent<HTMLInputElement>, currentQues
   event.target.value = ''
   if (!file) return
   try {
+    const XLSX = await import('xlsx')
     const workbook = XLSX.read(await file.arrayBuffer(), { type: 'array' })
     const firstSheet = workbook.Sheets[workbook.SheetNames[0]]
     const rows = XLSX.utils.sheet_to_json<Record<string, unknown>>(firstSheet, { defval: '' })
