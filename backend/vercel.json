@@ -1,11 +1,7 @@
 {
   "version": 2,
   "buildCommand": "npm run build",
-  "functions": {
-    "api/index.ts": {
-      "runtime": "nodejs22.x"
-    }
-  },
+  "outputDirectory": "dist",
   "rewrites": [
     {
       "source": "/(.*)",
